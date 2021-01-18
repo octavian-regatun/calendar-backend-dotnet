@@ -60,23 +60,31 @@ namespace calendar_backend_dotnet.Controllers
 
         private IActionResult HandleUserData(GoogleMeApi meApiData)
         {
-            var user = new UserModel
+            if (!UserModel.IsUserInCollection(meApiData.Id))
             {
-                Id = ObjectId.GenerateNewId(),
-                Provider = Providers.Google,
-                ProviderId = meApiData.Id,
-                Roles = new List<string> { Roles.User, Roles.Free },
-                FirstName = meApiData.GivenName,
-                LastName = meApiData.FamilyName,
-                Email = meApiData.Email,
-                Birthday = null,
-                Gender = null
-            };
-            if (!UserModel.IsUserInCollection(user))
-            {
+                var user = new UserModel
+                {
+                    Id = ObjectId.GenerateNewId(),
+                    Provider = Providers.Google,
+                    ProviderId = meApiData.Id,
+                    Roles = new List<string> { Roles.User, Roles.Free },
+                    FirstName = meApiData.GivenName,
+                    LastName = meApiData.FamilyName,
+                    Email = meApiData.Email,
+                    Birthday = null,
+                    Gender = null
+                };
+
                 CreateSessionCookie(user);
 
                 Database.InsertDocument(user);
+            }
+            else
+            {
+                var collection = Database.GetCollection<UserModel>(Collections.Users);
+                var user = collection.Find(x => x.ProviderId == meApiData.Id).First();
+
+                CreateSessionCookie(user);
             }
 
             if (AppSettings.IS_DEVELOPMENT)
