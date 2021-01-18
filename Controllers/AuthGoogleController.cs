@@ -75,16 +75,18 @@ namespace calendar_backend_dotnet.Controllers
                     Gender = null
                 };
 
-                CreateSessionCookie(user);
+                CreateSessionCookie(ref user);
 
                 Database.InsertDocument(user);
             }
             else
             {
                 var collection = Database.GetCollection<UserModel>(Collections.Users);
-                var user = collection.Find(x => x.ProviderId == meApiData.Id).First();
+                var user = collection.Find(x => x.ProviderId == meApiData.Id).FirstOrDefault();
 
-                CreateSessionCookie(user);
+                CreateSessionCookie(ref user);
+
+                collection.ReplaceOne<UserModel>(x => x.ProviderId == meApiData.Id, user);
             }
 
             if (AppSettings.IS_DEVELOPMENT)
@@ -98,14 +100,14 @@ namespace calendar_backend_dotnet.Controllers
             }
         }
 
-        private SessionModel CreateSessionCookie(UserModel user)
+        private SessionModel CreateSessionCookie(ref UserModel user)
         {
             var session = SessionModel.CreateSession();
             var cookieOptions = SessionModel.CreateCookieOptions(session);
-            Response.Cookies.Append("session", session.Id.ToString(), cookieOptions);
+            Response.Cookies.Append("session", session.Token, cookieOptions);
 
             session.UserId = user.Id;
-            user.sessionsId.Append(session.Id);
+            user.sessionsId.Add(session.Id);
 
             Database.InsertDocument(session);
 

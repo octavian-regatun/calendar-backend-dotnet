@@ -15,7 +15,7 @@ namespace calendar_backend_dotnet.Entities
             }
 
             var collection = Database.GetCollection<SessionModel>(Collections.Sessions);
-            var session = collection.Find(x => x.Id == ObjectId.Parse(sessionId)).First();
+            var session = collection.Find(x => x.Token == sessionId).FirstOrDefault();
 
             if (session != null)
             {

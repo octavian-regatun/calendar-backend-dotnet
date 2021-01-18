@@ -13,6 +13,7 @@ namespace calendar_backend_dotnet.Models
         public static string _CollectionName = "sessions";
         public ObjectId Id { get; set; }
         public ObjectId UserId { get; set; }
+        public string Token { get; set; }
         public IPAddress Ip { get; set; }
         public DateTime Create { get; set; }
         public DateTime LastUse { get; set; }
@@ -23,6 +24,7 @@ namespace calendar_backend_dotnet.Models
             var session = new SessionModel
             {
                 Id = ObjectId.GenerateNewId(),
+                Token = Guid.NewGuid().ToString(),
                 Ip = ip,
                 Create = DateTime.Now,
                 LastUse = DateTime.Now,

@@ -22,10 +22,10 @@ namespace calendar_backend_dotnet.Entities
         public string Gender { get; set; }
         public List<ObjectId> sessionsId = new List<ObjectId>();
 
-        public static bool IsUserInCollection(UserModel user)
+        public static bool IsUserInCollection(string providerId)
         {
-            var collection = Database.GetCollection(user);
-            var documents = collection.Find<UserModel>(x => x.ProviderId == user.ProviderId);
+            var collection = Database.GetCollection<UserModel>(Collections.Users);
+            var documents = collection.Find<UserModel>(x => x.ProviderId == providerId);
 
             if (documents.CountDocuments() == 0)
             {
