@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Security.Claims;
 using System.IO.Enumeration;
 using System.Text;
@@ -64,14 +65,13 @@ namespace calendar_backend_dotnet.Controllers
                 Id = ObjectId.GenerateNewId(),
                 Provider = Providers.Google,
                 ProviderId = meApiData.Id,
-                Roles = new string[] { Roles.User, Roles.Free },
+                Roles = new List<string> { Roles.User, Roles.Free },
                 FirstName = meApiData.GivenName,
                 LastName = meApiData.FamilyName,
                 Email = meApiData.Email,
                 Birthday = null,
                 Gender = null
             };
-
             if (!UserModel.IsUserInCollection(user))
             {
                 CreateSessionCookie(user);
@@ -97,7 +97,7 @@ namespace calendar_backend_dotnet.Controllers
             Response.Cookies.Append("session", session.Id.ToString(), cookieOptions);
 
             session.UserId = user.Id;
-            user.sessionsId = new ObjectId[] { session.Id };
+            user.sessionsId.Append(session.Id);
 
             Database.InsertDocument(session);
 
