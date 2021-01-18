@@ -1,24 +1,15 @@
 using System.Linq;
-using System.Security.Claims;
-using System.IO.Enumeration;
-using System.Text;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using calendar_backend_dotnet.Entities;
 using System.Threading.Tasks;
-using System.Text.Json;
 using MongoDB.Driver;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using System.IdentityModel.Tokens.Jwt;
 using System.Collections.Generic;
-using Microsoft.IdentityModel.Tokens;
-using calendar_backend_dotnet.Google;
 using calendar_backend_dotnet.Models;
-using Microsoft.AspNetCore.Http;
 using MongoDB.Bson;
+using calendar_backend_dotnet.AuthenticationServices.Google;
+using calendar_backend_dotnet.AuthenticationServices;
 
 namespace calendar_backend_dotnet.Controllers
 {
@@ -38,7 +29,7 @@ namespace calendar_backend_dotnet.Controllers
         {
             if (IsLoggedIn())
             {
-                return Redirect(AppSettings.FRONTEND_URI);
+                return Redirect(App.Settings.FRONTEND_URI);
             }
             else
             {
@@ -65,9 +56,9 @@ namespace calendar_backend_dotnet.Controllers
                 var user = new UserModel
                 {
                     Id = ObjectId.GenerateNewId(),
-                    Provider = Providers.Google,
+                    Provider = Authentication.Providers.Google,
                     ProviderId = meApiData.Id,
-                    Roles = new List<string> { Roles.User, Roles.Free },
+                    Roles = new List<string> { Authentication.Roles.User, Authentication.Roles.Free },
                     FirstName = meApiData.GivenName,
                     LastName = meApiData.FamilyName,
                     Email = meApiData.Email,
@@ -89,7 +80,7 @@ namespace calendar_backend_dotnet.Controllers
                 collection.ReplaceOne<UserModel>(x => x.ProviderId == meApiData.Id, user);
             }
 
-            if (AppSettings.IS_DEVELOPMENT)
+            if (App.Settings.IS_DEVELOPMENT)
             {
                 string frontendUri = Environment.GetEnvironmentVariable("FRONTEND_URI");
                 return Redirect(frontendUri);

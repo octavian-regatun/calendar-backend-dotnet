@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using calendar_backend_dotnet.Google;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -34,5 +33,12 @@ namespace calendar_backend_dotnet.Entities
 
             return true;
         }
+    }
+
+    public static class Gender
+    {
+        public static string Male = "M";
+        public static string Female = "F";
+        public static string Other = "O";
     }
 }

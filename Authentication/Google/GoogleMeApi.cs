@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace calendar_backend_dotnet.Google
+namespace calendar_backend_dotnet.AuthenticationServices.Google
 {
     public class GoogleMeApi
     {

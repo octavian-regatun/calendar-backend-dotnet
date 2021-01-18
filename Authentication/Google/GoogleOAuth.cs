@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 
-namespace calendar_backend_dotnet.Google
+namespace calendar_backend_dotnet.AuthenticationServices.Google
 {
     public class GoogleOAuth
     {
@@ -29,7 +29,7 @@ namespace calendar_backend_dotnet.Google
         {
             return
                 "https://accounts.google.com/o/oauth2/v2/auth?" +
-                $"client_id={AppSettings.GOOGLE_CLIENT_ID}&" +
+                $"client_id={App.Settings.GOOGLE_CLIENT_ID}&" +
                 $"redirect_uri={redirectUri}&" +
                 "response_type=code&" +
                 "scope=openid profile email&" +
@@ -44,15 +44,15 @@ namespace calendar_backend_dotnet.Google
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, TOKEN_URI);
             var content = new StringContent(
             $"code={code}&" +
-            $"client_id={AppSettings.GOOGLE_CLIENT_ID}&" +
-            $"client_secret={AppSettings.GOOGLE_CLIENT_SECRET}&" +
+            $"client_id={App.Settings.GOOGLE_CLIENT_ID}&" +
+            $"client_secret={App.Settings.GOOGLE_CLIENT_SECRET}&" +
             "grant_type=authorization_code&" +
             $"redirect_uri={redirectUri}&",
             Encoding.UTF8,
             "application/x-www-form-urlencoded"
             );
             request.Content = content;
-            var responseToken = await MyHttp.client.SendAsync(request);
+            var responseToken = await App.Http.client.SendAsync(request);
             var jsonToken = await responseToken.Content.ReadAsStringAsync();
             GoogleToken token = JsonSerializer.Deserialize<GoogleToken>(jsonToken);
 
@@ -63,8 +63,8 @@ namespace calendar_backend_dotnet.Google
         {
             const string API_URI = "https://www.googleapis.com/userinfo/v2/me";
 
-            MyHttp.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var meApiResponse = await MyHttp.client.GetStringAsync(API_URI);
+            App.Http.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            var meApiResponse = await App.Http.client.GetStringAsync(API_URI);
             var meApi = JsonSerializer.Deserialize<GoogleMeApi>(meApiResponse);
 
             return meApi;

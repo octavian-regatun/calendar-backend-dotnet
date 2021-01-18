@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using calendar_backend_dotnet.Entities;
 using System.Net.Http;
 using System.Text.Json;
+using calendar_backend_dotnet.Models;
 
 namespace calendar_backend_dotnet.Controllers
 {
@@ -22,12 +23,7 @@ namespace calendar_backend_dotnet.Controllers
 
             string parameters = $"?q={q}&apiKey={HERE_API_KEY}&at={location.Lat},{location.Lon}";
 
-            string response = await MyHttp.client.GetStringAsync(HERE_URI + parameters);
-
-            if (String.IsNullOrEmpty(response))
-            {
-                return StatusCode(404);
-            }
+            string response = await App.Http.client.GetStringAsync(HERE_URI + parameters);
 
             return Ok(response);
         }
@@ -36,7 +32,7 @@ namespace calendar_backend_dotnet.Controllers
         {
             string IP_API_URI = $"http://ip-api.com/json/{ip}";
 
-            string response = await MyHttp.client.GetStringAsync(IP_API_URI);
+            string response = await App.Http.client.GetStringAsync(IP_API_URI);
 
             return JsonSerializer.Deserialize<GpsCoordinates>(response);
         }

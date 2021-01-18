@@ -13,4 +13,10 @@ namespace calendar_backend_dotnet.Models
         public DateTime StartAt { get; set; }
         public string Image { get; set; }
     }
+
+    public class GpsCoordinates
+    {
+        public double Lat { get; set; }
+        public double Lon { get; set; }
+    }
 }
