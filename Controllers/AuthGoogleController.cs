@@ -34,17 +34,17 @@ namespace calendar_backend_dotnet.Controllers
         }
 
         [HttpGet]
-        public void Get()
+        public IActionResult Get()
         {
             if (IsLoggedIn())
             {
-                Redirect(AppSettings.FRONTEND_URI);
+                return Redirect(AppSettings.FRONTEND_URI);
             }
             else
             {
                 string codeUri = googleOAuth.GetCodeUri();
 
-                Response.Redirect(codeUri);
+                return Redirect(codeUri);
             }
         }
 
