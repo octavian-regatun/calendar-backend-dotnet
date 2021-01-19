@@ -93,7 +93,7 @@ namespace calendar_backend_dotnet.Controllers
 
         private SessionModel CreateSessionCookie(ref UserModel user)
         {
-            var session = SessionModel.CreateSession();
+            var session = new SessionModel();
             var cookieOptions = SessionModel.CreateCookieOptions(session);
             Response.Cookies.Append("session", session.Token, cookieOptions);
 

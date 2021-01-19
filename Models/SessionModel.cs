@@ -19,7 +19,7 @@ namespace calendar_backend_dotnet.Models
         public DateTime LastUse { get; set; }
         public DateTime Expire { get; set; }
 
-        public static SessionModel CreateSession(IPAddress ip = null)
+        public SessionModel(IPAddress ip = null)
         {
             var session = new SessionModel
             {
@@ -30,8 +30,6 @@ namespace calendar_backend_dotnet.Models
                 LastUse = DateTime.Now,
                 Expire = DateTime.Now.AddDays(7),
             };
-
-            return session;
         }
 
         public static CookieOptions CreateCookieOptions(SessionModel session)
