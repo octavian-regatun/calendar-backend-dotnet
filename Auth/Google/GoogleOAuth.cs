@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 
-namespace calendar_backend_dotnet.AuthenticationServices.Google
+namespace calendar_backend_dotnet.Auth.Google
 {
     public class GoogleOAuth
     {

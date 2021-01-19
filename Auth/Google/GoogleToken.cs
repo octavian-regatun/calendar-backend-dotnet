@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace calendar_backend_dotnet.AuthenticationServices.Google
+namespace calendar_backend_dotnet.Auth.Google
 {
     public class GoogleToken
     {

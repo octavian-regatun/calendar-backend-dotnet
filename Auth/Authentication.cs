@@ -2,9 +2,9 @@ using calendar_backend_dotnet.Entities;
 using calendar_backend_dotnet.Models;
 using MongoDB.Driver;
 
-namespace calendar_backend_dotnet.AuthenticationServices
+namespace calendar_backend_dotnet.Auth
 {
-    public static class Authentication
+    public static class AuthService
     {
         public static class Providers
         {

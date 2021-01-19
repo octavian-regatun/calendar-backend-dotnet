@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
 using calendar_backend_dotnet.Models;
 using MongoDB.Bson;
-using calendar_backend_dotnet.AuthenticationServices.Google;
-using calendar_backend_dotnet.AuthenticationServices;
+using calendar_backend_dotnet.Auth.Google;
+using calendar_backend_dotnet.Auth;
 
 namespace calendar_backend_dotnet.Controllers
 {
@@ -56,9 +56,9 @@ namespace calendar_backend_dotnet.Controllers
                 var user = new UserModel
                 {
                     Id = ObjectId.GenerateNewId(),
-                    Provider = Authentication.Providers.Google,
+                    Provider = AuthService.Providers.Google,
                     ProviderId = meApiData.Id,
-                    Roles = new List<string> { Authentication.Roles.User, Authentication.Roles.Free },
+                    Roles = new List<string> { AuthService.Roles.User, AuthService.Roles.Free },
                     FirstName = meApiData.GivenName,
                     LastName = meApiData.FamilyName,
                     Email = meApiData.Email,
@@ -112,7 +112,7 @@ namespace calendar_backend_dotnet.Controllers
 
         private bool IsLoggedIn()
         {
-            return Authentication.IsLoggedIn(GetSessionFromCookie());
+            return AuthService.IsLoggedIn(GetSessionFromCookie());
         }
     }
 }
