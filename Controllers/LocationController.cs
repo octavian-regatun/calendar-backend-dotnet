@@ -19,7 +19,7 @@ namespace calendar_backend_dotnet.Controllers
             const string HERE_URI = "https://autosuggest.search.hereapi.com/v1/autosuggest";
             string HERE_API_KEY = Environment.GetEnvironmentVariable("HERE_API_KEY");
 
-            GpsCoordinates location = await GetLocationFromIp(ip);
+            GpsCoordinates location = await GetLocationFromIpApi(ip);
 
             string parameters = $"?q={q}&apiKey={HERE_API_KEY}&at={location.Lat},{location.Lon}";
 
@@ -28,7 +28,7 @@ namespace calendar_backend_dotnet.Controllers
             return Ok(response);
         }
 
-        private async Task<GpsCoordinates> GetLocationFromIp(string ip)
+        private async Task<GpsCoordinates> GetLocationFromIpApi(string ip)
         {
             string IP_API_URI = $"http://ip-api.com/json/{ip}";
 
