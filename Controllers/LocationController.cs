@@ -6,6 +6,7 @@ using calendar_backend_dotnet.Entities;
 using System.Net.Http;
 using System.Text.Json;
 using calendar_backend_dotnet.Models;
+using static calendar_backend_dotnet.Auth.AuthService;
 
 namespace calendar_backend_dotnet.Controllers
 {
@@ -14,6 +15,7 @@ namespace calendar_backend_dotnet.Controllers
     public class LocationController : ControllerBase
     {
         [HttpGet]
+        [LoggedInFilter]
         public async Task<IActionResult> Get(string q, string ip)
         {
             const string HERE_URI = "https://autosuggest.search.hereapi.com/v1/autosuggest";
