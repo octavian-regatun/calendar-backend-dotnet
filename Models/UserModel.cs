@@ -19,7 +19,7 @@ namespace calendar_backend_dotnet.Entities
         public string Email { get; set; }
         public Nullable<DateTime> Birthday { get; set; }
         public string Gender { get; set; }
-        public List<ObjectId> sessionsId = new List<ObjectId>();
+        public List<ObjectId> Sessions = new List<ObjectId>();
 
         public static bool IsUserInCollection(string providerId)
         {

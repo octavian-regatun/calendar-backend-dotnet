@@ -12,7 +12,7 @@ namespace calendar_backend_dotnet.Models
     {
         public static string _CollectionName = "sessions";
         public ObjectId Id { get; set; }
-        public ObjectId UserId { get; set; }
+        public ObjectId User { get; set; }
         public string Token { get; set; }
         public IPAddress Ip { get; set; }
         public DateTime Create { get; set; }

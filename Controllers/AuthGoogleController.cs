@@ -97,8 +97,8 @@ namespace calendar_backend_dotnet.Controllers
             var cookieOptions = SessionModel.CreateCookieOptions(session);
             Response.Cookies.Append("session", session.Token, cookieOptions);
 
-            session.UserId = user.Id;
-            user.sessionsId.Add(session.Id);
+            session.User = user.Id;
+            user.Sessions.Add(session.Id);
 
             Database.InsertDocument(session);
 
