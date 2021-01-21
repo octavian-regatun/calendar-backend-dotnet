@@ -13,7 +13,6 @@ namespace calendar_backend_dotnet.Entities
             public static string MONGODB_DB_NAME = Environment.GetEnvironmentVariable("MONGODB_DB_NAME");
             public static string MONGODB_PASSWORD = Environment.GetEnvironmentVariable("MONGODB_PASSWORD");
             public static string FRONTEND_URI = Environment.GetEnvironmentVariable("FRONTEND_URI");
-            public static string JWT_SECURITY_KEY = Environment.GetEnvironmentVariable("JWT_SECURITY_KEY");
             public static bool IS_DEVELOPMENT = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
         }
         public static class Http
