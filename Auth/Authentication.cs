@@ -15,7 +15,7 @@ namespace calendar_backend_dotnet.Auth
             {
                 var sessionToken = context.HttpContext.Request.Cookies["session"];
 
-                if (IsLoggedIn(sessionToken))
+                if (!IsLoggedIn(sessionToken))
                 {
                     context.Result = new UnauthorizedResult();
                 }
