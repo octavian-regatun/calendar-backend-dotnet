@@ -39,20 +39,21 @@ namespace calendar_backend_dotnet.Auth
 
             return false;
         }
-        public static class Providers
-        {
-            public static string Google = "google";
-            public static string Facebook = "facebook";
-            public static string Twitter = "twitter";
-            public static string Apple = "apple";
-            public static string GitHub = "github";
-        }
+    }
 
-        public static class Roles
-        {
-            public static string User = "U";
-            public static string Free = "F";
-            public static string Admin = "A";
-        }
+    public static class Providers
+    {
+        public static string Google = "google";
+        public static string Facebook = "facebook";
+        public static string Twitter = "twitter";
+        public static string Apple = "apple";
+        public static string GitHub = "github";
+    }
+
+    public static class Roles
+    {
+        public static string User = "U";
+        public static string Free = "F";
+        public static string Admin = "A";
     }
 }

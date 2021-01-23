@@ -56,9 +56,9 @@ namespace calendar_backend_dotnet.Controllers
                 var user = new UserModel
                 {
                     Id = ObjectId.GenerateNewId(),
-                    Provider = AuthService.Providers.Google,
+                    Provider = Providers.Google,
                     ProviderId = meApiData.Id,
-                    Roles = new List<string> { AuthService.Roles.User, AuthService.Roles.Free },
+                    Roles = new List<string> { Roles.User, Roles.Free },
                     FirstName = meApiData.GivenName,
                     LastName = meApiData.FamilyName,
                     Email = meApiData.Email,
