@@ -21,15 +21,12 @@ namespace calendar_backend_dotnet.Models
 
         public SessionModel(IPAddress ip = null)
         {
-            var session = new SessionModel
-            {
-                Id = ObjectId.GenerateNewId(),
-                Token = Guid.NewGuid().ToString(),
-                Ip = ip,
-                Create = DateTime.Now,
-                LastUse = DateTime.Now,
-                Expire = DateTime.Now.AddDays(7),
-            };
+            Id = ObjectId.GenerateNewId();
+            Token = Guid.NewGuid().ToString();
+            Ip = ip;
+            Create = DateTime.Now;
+            LastUse = DateTime.Now;
+            Expire = DateTime.Now.AddDays(7);
         }
 
         public static CookieOptions CreateCookieOptions(SessionModel session)
