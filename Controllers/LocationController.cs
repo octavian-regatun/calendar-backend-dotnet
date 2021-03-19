@@ -6,7 +6,6 @@ using calendar_backend_dotnet.Entities;
 using System.Net.Http;
 using System.Text.Json;
 using calendar_backend_dotnet.Models;
-using static calendar_backend_dotnet.Auth.AuthService;
 
 namespace calendar_backend_dotnet.Controllers
 {
@@ -15,7 +14,6 @@ namespace calendar_backend_dotnet.Controllers
     public class LocationController : ControllerBase
     {
         [HttpGet]
-        [LoggedInFilter]
         public async Task<IActionResult> Get(string q, string ip)
         {
             const string HERE_URI = "https://autosuggest.search.hereapi.com/v1/autosuggest";
@@ -25,7 +23,7 @@ namespace calendar_backend_dotnet.Controllers
 
             string parameters = $"?q={q}&apiKey={HERE_API_KEY}&at={location.Lat},{location.Lon}";
 
-            string response = await App.Http.client.GetStringAsync(HERE_URI + parameters);
+            string response = await App.Http.Client.GetStringAsync(HERE_URI + parameters);
 
             return Ok(response);
         }
@@ -34,7 +32,7 @@ namespace calendar_backend_dotnet.Controllers
         {
             string IP_API_URI = $"http://ip-api.com/json/{ip}";
 
-            string response = await App.Http.client.GetStringAsync(IP_API_URI);
+            string response = await App.Http.Client.GetStringAsync(IP_API_URI);
 
             return JsonSerializer.Deserialize<GpsCoordinates>(response);
         }

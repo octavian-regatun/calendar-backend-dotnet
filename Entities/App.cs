@@ -7,20 +7,21 @@ namespace calendar_backend_dotnet.Entities
     {
         public static class Settings
         {
-            public static string HERE_API_KEY = Environment.GetEnvironmentVariable("HERE_API_KEY");
-            public static string GOOGLE_CLIENT_ID = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
-            public static string GOOGLE_CLIENT_SECRET = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
-            public static string MONGODB_DB_NAME = Environment.GetEnvironmentVariable("MONGODB_DB_NAME");
-            public static string MONGODB_PASSWORD = Environment.GetEnvironmentVariable("MONGODB_PASSWORD");
-            public static string FRONTEND_URI = Environment.GetEnvironmentVariable("FRONTEND_URI");
-            public static bool IS_DEVELOPMENT = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+            public static string HereApiKey = Environment.GetEnvironmentVariable("HERE_API_KEY");
+            public static string GoogleClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+            public static string GoogleClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
+            public static string MongoDbName = Environment.GetEnvironmentVariable("MONGODB_DB_NAME");
+            public static string MongoDbPassword = Environment.GetEnvironmentVariable("MONGODB_PASSWORD");
+            public static string FrontendUri = Environment.GetEnvironmentVariable("FRONTEND_URI");
+            public static bool IsDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+            public static string JwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
         }
         public static class Http
         {
-            public static HttpClient client;
+            public static HttpClient Client;
             static Http()
             {
-                client = new HttpClient();
+                Client = new HttpClient();
             }
         }
     }

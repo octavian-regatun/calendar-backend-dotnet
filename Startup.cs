@@ -7,45 +7,60 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using calendar_backend_dotnet.Entities;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using calendar_backend_dotnet.Services;
 
 namespace calendar_backend_dotnet
 {
     public class Startup
     {
-        private static bool IsDevelopment;
-        public IConfiguration Configuration { get; }
-
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-
-            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            IsDevelopment = environment == "Development";
-        }
+        // public Startup() { }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
+            services.AddCors(opts =>
             {
-                options.AddDefaultPolicy(builder =>
+                opts.AddPolicy("AllowAll", builder =>
                 {
-                    builder.WithOrigins(App.Settings.FRONTEND_URI);
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
                 });
             });
 
+            services.AddAuthentication()
+                        .AddJwtBearer(cfg =>
+                            {
+                                cfg.RequireHttpsMetadata = false;
+                                cfg.SaveToken = true;
+
+                                cfg.TokenValidationParameters = new TokenValidationParameters()
+                                {
+                                    ValidateIssuerSigningKey = true,
+                                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(App.Settings.JwtSecret)),
+                                    ValidateIssuer = false,
+                                    ValidateAudience = false
+                                };
+                            });
+
             services.AddControllers();
+            services.AddScoped<IAuthService, AuthService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHttpsRedirection();
+            }
 
-            if (IsDevelopment)
+            if (!App.Settings.IsDevelopment)
             {
                 app.UseFileServer(new FileServerOptions
                 {
@@ -54,9 +69,11 @@ namespace calendar_backend_dotnet
                 });
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
+
+            app.UseCors("AllowAll");
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
